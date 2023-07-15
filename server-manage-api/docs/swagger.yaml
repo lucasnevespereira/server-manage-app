@@ -1,0 +1,127 @@
+basePath: /
+definitions:
+  models.CreateServerRequest:
+    properties:
+      name:
+        type: string
+      status:
+        type: string
+      type:
+        type: string
+    type: object
+  models.CreateServerResponse:
+    properties:
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  models.ListServerResponse:
+    properties:
+      servers:
+        items:
+          $ref: '#/definitions/models.Server'
+        type: array
+      total:
+        type: integer
+    type: object
+  models.Server:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      status:
+        type: string
+      type:
+        type: string
+    type: object
+host: localhost:9000
+info:
+  contact: {}
+  description: Simple REST API to manage servers.
+  title: Server Manage API
+  version: "1.0"
+paths:
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: Check api status
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Health
+  /server/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a specific server by ID
+      parameters:
+      - description: Server ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Server'
+      summary: Get Server by ID
+  /servers:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of servers
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ListServerResponse'
+      summary: List Servers
+    post:
+      consumes:
+      - application/json
+      description: Create a new server
+      parameters:
+      - description: Server creation request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateServerRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CreateServerResponse'
+      summary: Create Server
+  /servers/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a specific server by ID
+      parameters:
+      - description: Server ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Server'
+      summary: Delete Server by ID
+swagger: "2.0"
